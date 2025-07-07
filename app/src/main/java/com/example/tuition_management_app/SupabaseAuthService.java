@@ -6,8 +6,6 @@ import java.io.IOException;
 
 public class SupabaseAuthService {
     private final OkHttpClient client = new OkHttpClient();
-    private static final String BASE_URL = "https://vdrphijlvresyudxgfrj.supabase.co";
-    private static final String API_KEY = "YOUR_SUPABASE_API_KEY";
     private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
     public void login(String email, String password, Callback callback) {
@@ -18,8 +16,8 @@ public class SupabaseAuthService {
 
             RequestBody body = RequestBody.create(bodyJson.toString(), JSON);
             Request request = new Request.Builder()
-                    .url(BASE_URL + "/auth/v1/token?grant_type=password")
-                    .addHeader("apikey", API_KEY)
+                    .url(SupabaseConfig.SUPABASE_AUTH_URL + "token?grant_type=password")
+                    .addHeader("apikey", SupabaseConfig.SUPABASE_API_KEY)
                     .addHeader("Content-Type", "application/json")
                     .post(body)
                     .build();
