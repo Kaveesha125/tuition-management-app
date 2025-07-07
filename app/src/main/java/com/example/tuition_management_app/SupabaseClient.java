@@ -1,0 +1,103 @@
+package com.example.tuition_management_app;
+
+
+import okhttp3.*;
+
+public class SupabaseClient {
+    // Replace these with your actual project credentials
+    private static final String SUPABASE_URL = "https://vdrphijlvresyudxgfrj.supabase.co";
+    private static final String API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZkcnBoaWpsdnJlc3l1ZHhnZnJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE4Njc3NzYsImV4cCI6MjA2NzQ0Mzc3Nn0.HYCsGy7U5la9oG68t7msPkDvFZPUpIevVgPlNNjZa5w";
+    private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
+
+    private static final OkHttpClient client = new OkHttpClient();
+
+    // === SELECT ===
+    public static void select(String table, String filterQuery, Callback callback) {
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(SUPABASE_URL + "/rest/v1/" + table).newBuilder();
+        urlBuilder.addQueryParameter("select", "*");
+
+        if (filterQuery != null && !filterQuery.isEmpty()) {
+            // Example: filterQuery = "user_id=eq.123"
+            String[] filters = filterQuery.split("&");
+            for (String f : filters) {
+                String[] kv = f.split("=");
+                urlBuilder.addQueryParameter(kv[0], kv[1]);
+            }
+        }
+
+        Request request = new Request.Builder()
+                .url(urlBuilder.build())
+                .addHeader("apikey", API_KEY)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("Accept", "application/json")
+                .build();
+
+        client.newCall(request).enqueue(callback);
+    }
+
+    // === INSERT ===
+    public static void insert(String table, String jsonBody, Callback callback) {
+        RequestBody body = RequestBody.create(jsonBody, JSON);
+
+        Request request = new Request.Builder()
+                .url(SUPABASE_URL + "/rest/v1/" + table)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Prefer", "return=representation")
+                .post(body)
+                .build();
+
+        client.newCall(request).enqueue(callback);
+    }
+
+    // === UPDATE ===
+    public static void update(String table, String filterQuery, String jsonBody, Callback callback) {
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(SUPABASE_URL + "/rest/v1/" + table).newBuilder();
+
+        // Add filters like id=eq.5
+        if (filterQuery != null && !filterQuery.isEmpty()) {
+            String[] filters = filterQuery.split("&");
+            for (String f : filters) {
+                String[] kv = f.split("=");
+                urlBuilder.addQueryParameter(kv[0], kv[1]);
+            }
+        }
+
+        RequestBody body = RequestBody.create(jsonBody, JSON);
+
+        Request request = new Request.Builder()
+                .url(urlBuilder.build())
+                .addHeader("apikey", API_KEY)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Prefer", "return=representation")
+                .patch(body)
+                .build();
+
+        client.newCall(request).enqueue(callback);
+    }
+
+    // === DELETE ===
+    public static void delete(String table, String filterQuery, Callback callback) {
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(SUPABASE_URL + "/rest/v1/" + table).newBuilder();
+
+        if (filterQuery != null && !filterQuery.isEmpty()) {
+            String[] filters = filterQuery.split("&");
+            for (String f : filters) {
+                String[] kv = f.split("=");
+                urlBuilder.addQueryParameter(kv[0], kv[1]);
+            }
+        }
+
+        Request request = new Request.Builder()
+                .url(urlBuilder.build())
+                .addHeader("apikey", API_KEY)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("Accept", "application/json")
+                .delete()
+                .build();
+
+        client.newCall(request).enqueue(callback);
+    }
+}
