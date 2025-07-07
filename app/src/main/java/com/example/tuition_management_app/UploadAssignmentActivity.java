@@ -1,18 +1,20 @@
 package com.example.tuitionapp.activities;
 
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.tuitionapp.R;
-import com.example.tuitionapp.database.DBHelper;
+import com.example.tuitionapp.utils.SupabaseService;
+import org.json.JSONObject;
+import java.io.IOException;
+import okhttp3.*;
 
 public class UploadAssignmentActivity extends AppCompatActivity {
-
     EditText inputTitle, inputDescription;
-    Button btnSubmitAssignment;
-    DBHelper db;
+    Button btnSubmit;
+    SupabaseService supabase;
+    String accessToken = "<replace_with_token_from_login>"; // Should be passed securely
+    String teacherId = "<replace_with_teacher_id>";         // Should be dynamic
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,20 +23,30 @@ public class UploadAssignmentActivity extends AppCompatActivity {
 
         inputTitle = findViewById(R.id.inputTitle);
         inputDescription = findViewById(R.id.inputDescription);
-        btnSubmitAssignment = findViewById(R.id.btnSubmitAssignment);
+        btnSubmit = findViewById(R.id.btnSubmitAssignment);
 
-        db = new DBHelper(this);
+        supabase = new SupabaseService();
 
-        btnSubmitAssignment.setOnClickListener(v -> {
-            String title = inputTitle.getText().toString();
-            String desc = inputDescription.getText().toString();
+        btnSubmit.setOnClickListener(v -> {
+            try {
+                JSONObject obj = new JSONObject();
+                obj.put("title", inputTitle.getText().toString());
+                obj.put("description", inputDescription.getText().toString());
+                obj.put("teacher_id", teacherId);
 
-            boolean inserted = db.insertAssignment(title, desc);
-            if (inserted) {
-                Toast.makeText(this, "Assignment Uploaded", Toast.LENGTH_SHORT).show();
-                finish();
-            } else {
-                Toast.makeText(this, "Error Uploading", Toast.LENGTH_SHORT).show();
+                supabase.postData("assignments", obj, accessToken, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Upload failed", Toast.LENGTH_SHORT).show());
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Uploaded!", Toast.LENGTH_SHORT).show());
+                    }
+                });
+            } catch (Exception e) {
+                Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
