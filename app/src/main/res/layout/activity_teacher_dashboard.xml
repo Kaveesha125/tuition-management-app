@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="24dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnAttendance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📷 Take Attendance via QR" />
+
+        <Button
+            android:id="@+id/btnAssignment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📁 Upload Assignment"
+            android:layout_marginTop="16dp" />
+
+        <Button
+            android:id="@+id/btnMaterial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📚 Upload Course Material"
+            android:layout_marginTop="16dp" />
+
+        <Button
+            android:id="@+id/btnResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📊 Upload Student Results"
+            android:layout_marginTop="16dp" />
+    </LinearLayout>
+</ScrollView>

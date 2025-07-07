@@ -1,24 +1,28 @@
-package com.example.tuition_management_app;
+package com.example.teacherdashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
+import android.view.View;
+import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
+
+    Button btnAssignments, btnAttendance, btnSubmissions, btnResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+        btnAssignments = findViewById(R.id.btnAssignments);
+        btnAttendance = findViewById(R.id.btnAttendance);
+        btnSubmissions = findViewById(R.id.btnSubmissions);
+        btnResults = findViewById(R.id.btnResults);
+
+        btnAssignments.setOnClickListener(v -> startActivity(new Intent(this, AssignmentsActivity.class)));
+        btnAttendance.setOnClickListener(v -> startActivity(new Intent(this, AttendanceActivity.class)));
+        btnSubmissions.setOnClickListener(v -> startActivity(new Intent(this, SubmissionsActivity.class)));
+        btnResults.setOnClickListener(v -> startActivity(new Intent(this, ResultsActivity.class)));
     }
 }
