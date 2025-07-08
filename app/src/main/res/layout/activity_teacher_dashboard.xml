@@ -1,40 +1,77 @@
-<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="24dp"
+    android:background="@android:color/white"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <LinearLayout
         android:orientation="vertical"
+        android:padding="24dp"
         android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:text="Teacher Dashboard"
+            android:textColor="#0288D1"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:background="@drawable/card_bg"
+            android:elevation="6dp"
+            android:padding="24dp"
+            android:layout_marginBottom="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btnAttendance"
+                android:text="Take Attendance"
+                android:layout_marginBottom="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#0288D1"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/btnAssignment"
+                android:text="Upload Assignment"
+                android:layout_marginBottom="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#039BE5"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/btnMaterial"
+                android:text="Upload Material"
+                android:layout_marginBottom="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#03A9F4"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/btnResult"
+                android:text="Upload Result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#4FC3F7"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
 
         <Button
-            android:id="@+id/btnAttendance"
-            android:layout_width="match_parent"
+            android:id="@+id/btnLogout"
+            android:text=" Logout"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="📷 Take Attendance via QR" />
-
-        <Button
-            android:id="@+id/btnAssignment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="📁 Upload Assignment"
-            android:layout_marginTop="16dp" />
-
-        <Button
-            android:id="@+id/btnMaterial"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="📚 Upload Course Material"
-            android:layout_marginTop="16dp" />
-
-        <Button
-            android:id="@+id/btnResult"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="📊 Upload Student Results"
-            android:layout_marginTop="16dp" />
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:textColor="@android:color/white"
+            android:elevation="4dp" />
     </LinearLayout>
 </ScrollView>
