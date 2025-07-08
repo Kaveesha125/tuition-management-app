@@ -2,7 +2,7 @@ package com.example.tuition_management_app;
 
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -11,8 +11,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView welcomeText = findViewById(R.id.welcomeText);
-        Button loginButton = findViewById(R.id.loginButton);
+        EditText inputEmail = findViewById(R.id.inputEmail);
+        EditText inputPassword = findViewById(R.id.inputPassword);
+        Button btnLogin = findViewById(R.id.btnLogin);
 
         // Add your logic here
     }
