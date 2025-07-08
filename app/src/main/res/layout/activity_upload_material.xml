@@ -41,7 +41,7 @@
             android:layout_height="wrap_content" />
 
         <Button
-            android:id="@+id/btnUploadMaterial"
+            android:id="@+id/btnSubmitMaterial"
             android:text="Upload"
             android:backgroundTint="#0288D1"
             android:textColor="@android:color/white"

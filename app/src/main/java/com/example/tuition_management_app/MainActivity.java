@@ -1,5 +1,6 @@
 package com.example.tuition_management_app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +16,10 @@ public class MainActivity extends AppCompatActivity {
         EditText inputPassword = findViewById(R.id.inputPassword);
         Button btnLogin = findViewById(R.id.btnLogin);
 
-        // Add your logic here
+        btnLogin.setOnClickListener(v -> {
+            // Add authentication logic if needed
+            Intent intent = new Intent(this, TeacherDashboardActivity.class);
+            startActivity(intent);
+        });
     }
 }

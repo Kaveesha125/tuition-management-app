@@ -23,6 +23,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AttendanceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UploadAssignmentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UploadMaterialActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UploadResultActivity"
+            android:exported="false" />
     </application>
+
 
 </manifest>

@@ -56,5 +56,24 @@
             android:layout_marginTop="24dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <!-- app/src/main/res/layout/activity_upload_result.xml -->
+        <Button
+            android:id="@+id/btnSubmitResult"
+            android:text="Upload Result"
+            android:backgroundTint="#0288D1"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnDone"
+            android:text="Done"
+            android:backgroundTint="#388E3C"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </ScrollView>
