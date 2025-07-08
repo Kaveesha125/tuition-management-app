@@ -1,9 +1,12 @@
+// File: app/src/main/java/com/example/tuition_management_app/MainActivity.java
 package com.example.tuition_management_app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,7 +20,31 @@ public class MainActivity extends AppCompatActivity {
         Button btnLogin = findViewById(R.id.btnLogin);
 
         btnLogin.setOnClickListener(v -> {
-            // Add authentication logic if needed
+            String email = inputEmail.getText().toString().trim();
+            String password = inputPassword.getText().toString();
+
+            if (email.isEmpty()) {
+                inputEmail.setError("Email is required");
+                inputEmail.requestFocus();
+                return;
+            }
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                inputEmail.setError("Enter a valid email");
+                inputEmail.requestFocus();
+                return;
+            }
+            if (password.isEmpty()) {
+                inputPassword.setError("Password is required");
+                inputPassword.requestFocus();
+                return;
+            }
+            if (password.length() < 6) {
+                inputPassword.setError("Password must be at least 6 characters");
+                inputPassword.requestFocus();
+                return;
+            }
+
+            // If validation passes, proceed to dashboard
             Intent intent = new Intent(this, TeacherDashboardActivity.class);
             startActivity(intent);
         });
