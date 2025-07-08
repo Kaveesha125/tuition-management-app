@@ -5,7 +5,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
@@ -77,9 +76,6 @@ public class MainActivity extends AppCompatActivity {
                     errorText.setText("Enter A vaild Email....");
                     return;
                 }
-                // All condition passed
-                errorText.setText("");
-                Toast.makeText(MainActivity.this, "Registration Successfully Completed", Toast.LENGTH_LONG).show();
                 //increase id &refresh
                 registrationId++;
                 idEditText.setText(String.valueOf(registrationId));
