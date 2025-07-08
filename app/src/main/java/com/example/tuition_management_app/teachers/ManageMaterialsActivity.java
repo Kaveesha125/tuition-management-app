@@ -1,4 +1,4 @@
-package com.example.tuition_management_app;
+package com.example.tuition_management_app.teachers;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;

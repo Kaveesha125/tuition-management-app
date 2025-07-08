@@ -1,13 +1,14 @@
-package com.example.tuition_management_app;
+package com.example.tuition_management_app.teachers;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.tuition_management_app.R;
 
 public class AttendanceActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;

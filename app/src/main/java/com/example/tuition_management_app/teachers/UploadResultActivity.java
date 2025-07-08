@@ -1,9 +1,11 @@
-package com.example.tuition_management_app;
+package com.example.tuition_management_app.teachers;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.tuition_management_app.R;
 
 public class UploadResultActivity extends AppCompatActivity {
     @Override
