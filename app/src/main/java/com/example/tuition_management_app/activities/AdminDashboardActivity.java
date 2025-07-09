@@ -1,30 +1,52 @@
 package com.example.tuition_management_app.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.tuition_management_app.R;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.fragment.app.Fragment;
 
 public class AdminDashboardActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle s) {
-        super.onCreate(s);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_dashboard);
 
-        findViewById(R.id.btnManageUsers).setOnClickListener(v ->
-                Toast.makeText(this, "Manage Users clicked", Toast.LENGTH_SHORT).show());
+        MaterialToolbar toolbar = findViewById(R.id.adminToolbar);
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
 
-        findViewById(R.id.btnManageCourses).setOnClickListener(v ->
-                Toast.makeText(this, "Manage Courses clicked", Toast.LENGTH_SHORT).show());
+        // Set default fragment and title
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainerView, new AdminHomeFragment())
+                    .commit();
+            toolbar.setTitle("Home");
+            bottomNav.setSelectedItemId(R.id.nav_home);
+        }
 
-        findViewById(R.id.btnViewReports).setOnClickListener(v ->
-                Toast.makeText(this, "View Reports clicked", Toast.LENGTH_SHORT).show());
-
-        findViewById(R.id.btnLogout).setOnClickListener(v -> {
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
+        bottomNav.setOnItemSelectedListener(item -> {
+            Fragment selected = null;
+            String title = "Home";
+            int id = item.getItemId();
+            if (id == R.id.nav_home) {
+                selected = new AdminHomeFragment();
+                title = "Home";
+            } else if (id == R.id.nav_reports) {
+                selected = new AdminReportsFragment();
+                title = "Reports";
+            } else if (id == R.id.nav_profile) {
+                selected = new AdminProfileFragment();
+                title = "Profile";
+            }
+            if (selected != null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainerView, selected)
+                        .commit();
+                toolbar.setTitle(title);
+            }
+            return true;
         });
     }
 }
