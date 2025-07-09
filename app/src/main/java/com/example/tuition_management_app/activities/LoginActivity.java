@@ -7,6 +7,14 @@ import android.view.MotionEvent;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
+// Import your Student and Teacher activity classes
+// Make sure these import paths match your project structure
+import com.example.tuition_management_app.utils.SessionManager;
+import com.example.tuition_management_app.student.StudentHomeActivity;
+import com.example.tuition_management_app.teachers.TeacherDashboardActivity;
+// If AdminDashboardActivity is not in the same 'activities' package, import it too.
+// Assuming it's in the same package as LoginActivity, so no explicit import needed for it here.
+
 import com.example.tuition_management_app.R;
 import com.example.tuition_management_app.SupabaseClient;
 
@@ -17,6 +25,7 @@ import okhttp3.ResponseBody;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -69,7 +78,6 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // Build filter map for email and password only
         Map<String, String> filters = new HashMap<>();
         filters.put("email", "eq." + email);
         filters.put("password", "eq." + password);
@@ -88,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                     runOnUiThread(() ->
                             Toast.makeText(LoginActivity.this, "Login failed: " + response.message(), Toast.LENGTH_SHORT).show()
                     );
-                    response.close(); // Close here if unsuccessful
+                    response.close();
                     return;
                 }
 
@@ -100,29 +108,41 @@ public class LoginActivity extends AppCompatActivity {
                         return;
                     }
 
-                    String jsonResponse = responseBody.string();  // consumes and closes body
-
+                    String jsonResponse = responseBody.string();
                     JSONArray jsonArray = new JSONArray(jsonResponse);
+
                     if (jsonArray.length() > 0) {
-                        String role = jsonArray.getJSONObject(0).getString("role");
+                        JSONObject userObj = jsonArray.getJSONObject(0);
+                        long userId = userObj.getLong("id");
+                        String role = userObj.getString("role");
+                        String name = userObj.getString("name");
+                        String email = userObj.getString("email");
+
+                        SessionManager session = new SessionManager(LoginActivity.this);
+                        session.saveSession(userId, name, email, role);
+
                         runOnUiThread(() -> {
+                            Intent intent = null;
                             switch (role.toLowerCase()) {
                                 case "admin":
                                     Toast.makeText(LoginActivity.this, "Welcome Admin", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(LoginActivity.this, AdminDashboardActivity.class));
-                                    finish();
+                                    intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
                                     break;
                                 case "student":
                                     Toast.makeText(LoginActivity.this, "Welcome Student", Toast.LENGTH_SHORT).show();
-                                    // TODO: student activity
+                                    intent = new Intent(LoginActivity.this, StudentHomeActivity.class);
                                     break;
                                 case "teacher":
                                     Toast.makeText(LoginActivity.this, "Welcome Teacher", Toast.LENGTH_SHORT).show();
-                                    // TODO: teacher activity
+                                    intent = new Intent(LoginActivity.this, TeacherDashboardActivity.class);
                                     break;
                                 default:
                                     Toast.makeText(LoginActivity.this, "Unknown role: " + role, Toast.LENGTH_SHORT).show();
                                     break;
+                            }
+                            if (intent != null) {
+                                startActivity(intent);
+                                finish();
                             }
                         });
                     } else {
@@ -132,11 +152,10 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 } catch (JSONException e) {
                     runOnUiThread(() ->
-                            Toast.makeText(LoginActivity.this, "Response parsing error", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(LoginActivity.this, "Response parsing error: " + e.getMessage(), Toast.LENGTH_SHORT).show()
                     );
                 }
             }
-
         });
     }
 }

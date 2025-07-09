@@ -5,8 +5,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -17,31 +15,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tuitionmanagementapp">
 
-        <!-- ✅ Admin Dashboard Activity -->
-        <activity
-            android:name=".activities.AdminDashboardActivity"
-            android:exported="false" />
-
-        <!-- ✅ Login Activity set as launcher -->
+        <!-- Login Activity set as launcher -->
         <activity
             android:name=".activities.LoginActivity"
-            android:exported="true">
-        </activity>
-        <activity
-            android:name=".teachers.TeacherDashboardActivity"
-            android:exported="true">
+            android:exported="true">  <!-- Set to true for launcher -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- ❌ MainActivity disabled for now -->
-        <!--
+        <!-- Declare Admin Dashboard Activity -->
         <activity
-            android:name=".MainActivity"
-            android:exported="true" />
-        -->
+            android:name=".activities.AdminDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".student.StudentHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".teachers.TeacherDashboardActivity"
+            android:exported="false" />
 
     </application>
 
