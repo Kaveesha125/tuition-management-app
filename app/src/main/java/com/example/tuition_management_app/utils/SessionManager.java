@@ -1,6 +1,7 @@
 package com.example.tuition_management_app.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 
 public class SessionManager {
@@ -26,7 +27,18 @@ public class SessionManager {
         editor.apply();
     }
 
-    // for testing purposes change to private
+    public static void logout(Context context) {
+        SessionManager session = new SessionManager(context);
+        session.clearSession();
+        Intent intent = new Intent(context, com.example.tuition_management_app.activities.LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
+        if (context instanceof android.app.Activity) {
+            ((android.app.Activity) context).finish();
+        }
+    }
+
+
     public long getUserId() {
         return prefs.getLong(KEY_USER_ID, -1);
     }

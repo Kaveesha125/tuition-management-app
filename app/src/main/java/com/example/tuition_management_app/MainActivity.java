@@ -33,14 +33,6 @@ public class MainActivity extends AppCompatActivity {
             return insets;
 
         });
-        SessionManager session = new SessionManager(this);
-        String info = "ID: " + session.getUserId() +
-                ", Name: " + session.getName() +
-                ", Email: " + session.getEmail() +
-                ", Role: " + session.getRole();
-        Log.d(TAG, "Session Info: " + info);
-
-
     }
 
 
