@@ -40,11 +40,29 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
-        etEmail = findViewById(R.id.etEmail);
-        etPassword = findViewById(R.id.etPassword);
-        btnLogin = findViewById(R.id.btnLogin);
+        SessionManager session = new SessionManager(this);
+        if(session.getUserId() != -1) {
+            // User is already logged in, redirect to appropriate dashboard
+            String role = session.getRole();
+            Intent intent = null;
+            switch (role.toLowerCase()) {
+                case "admin":
+                    intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
+                    break;
+                case "student":
+                    intent = new Intent(LoginActivity.this, StudentHomeActivity.class);
+                    break;
+                case "teacher":
+                    intent = new Intent(LoginActivity.this, TeacherDashboardActivity.class);
+                    break;
+                default:
+                    Toast.makeText(this, "Unknown role: " + role, Toast.LENGTH_SHORT).show();
+                    return;
+            }
+            startActivity(intent);
+            finish();
+        }
 
         // Toggle password visibility on eye icon click
         etPassword.setOnTouchListener((v, event) -> {
