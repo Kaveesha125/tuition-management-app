@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">tuition-management-app</string>
+    <string name="app_name">Tuition Management App</string>
+    <!-- Add other strings here -->
 </resources>

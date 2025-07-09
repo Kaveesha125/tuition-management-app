@@ -16,8 +16,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static int registrationId = 1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,21 +27,19 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Initialize all views
-        EditText idEditText = findViewById(R.id.editTextNumber);
+        // Initialize all the used objects
+
         EditText nameEditText = findViewById(R.id.editTextText2);
         EditText emailEditText = findViewById(R.id.editTextTextEmailAddress);
         EditText passwordEditText = findViewById(R.id.editTextTextPassword);
         Spinner roleSpinner = findViewById(R.id.spinner);
         Button registerButton = findViewById(R.id.button2);
 
-        // id auto increment & can't edit
-        idEditText.setText(String.valueOf(registrationId));
-        idEditText.setEnabled(false);
+
 
         // The caution msg & popup
         TextView errorText = new TextView(this);
-        errorText.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+        errorText.setTextColor(getResources().getColor(android.R.color.white));
         errorText.setText("Fill All The Fields...");
         ((androidx.constraintlayout.widget.ConstraintLayout) findViewById(R.id.main)).addView(errorText);
         //layout of popup text
@@ -53,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         params.topToBottom = R.id.button2;
         params.startToStart = R.id.main;
         params.endToEnd = R.id.main;
-        params.topMargin = 100;
+        params.topMargin = 50;
         errorText.setLayoutParams(params);
 
         // Register button
@@ -77,8 +73,6 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 //increase id &refresh
-                registrationId++;
-                idEditText.setText(String.valueOf(registrationId));
                 nameEditText.setText("");
                 emailEditText.setText("");
                 passwordEditText.setText("");
