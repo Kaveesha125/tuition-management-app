@@ -63,6 +63,11 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+        setContentView(R.layout.activity_login);
+
+        etEmail = findViewById(R.id.etEmail);
+        etPassword = findViewById(R.id.etPassword);
+        btnLogin = findViewById(R.id.btnLogin);
 
         // Toggle password visibility on eye icon click
         etPassword.setOnTouchListener((v, event) -> {
