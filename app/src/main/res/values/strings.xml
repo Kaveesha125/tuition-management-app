@@ -1,3 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
-    <string name="app_name">tuition-management-app</string>
+    <string name="app_name">Tuition Management App</string>
+    <string name="hello_world">Hello World!</string>
+    <string name="feature">Feature</string>
+    <string name="welcome_teacher">Welcome, Teacher!</string>
+    <string name="card_icon_desc">Feature icon</string>
+    <string name="take_attendance">Take Attendance</string>
+    <string name="upload_assignments">Upload Assignments</string>
+    <string name="release_results">Release Results</string>
+    <string name="manage_materials">Manage Materials</string>
+    <string name="view_reports">View Reports</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

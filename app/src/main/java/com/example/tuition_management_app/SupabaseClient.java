@@ -1,6 +1,8 @@
 package com.example.tuition_management_app;
 
 
+import java.util.Map;
+
 import okhttp3.*;
 
 public class SupabaseClient {
@@ -12,16 +14,13 @@ public class SupabaseClient {
     private static final OkHttpClient client = new OkHttpClient();
 
     // === SELECT ===
-    public static void select(String table, String filterQuery, Callback callback) {
+    public static void select(String table, Map<String, String> filters, Callback callback) {
         HttpUrl.Builder urlBuilder = HttpUrl.parse(SUPABASE_URL + "/rest/v1/" + table).newBuilder();
         urlBuilder.addQueryParameter("select", "*");
 
-        if (filterQuery != null && !filterQuery.isEmpty()) {
-            // Example: filterQuery = "user_id=eq.123"
-            String[] filters = filterQuery.split("&");
-            for (String f : filters) {
-                String[] kv = f.split("=");
-                urlBuilder.addQueryParameter(kv[0], kv[1]);
+        if (filters != null && !filters.isEmpty()) {
+            for (Map.Entry<String, String> entry : filters.entrySet()) {
+                urlBuilder.addQueryParameter(entry.getKey(), entry.getValue());
             }
         }
 
@@ -37,7 +36,7 @@ public class SupabaseClient {
 
     // === INSERT ===
     public static void insert(String table, String jsonBody, Callback callback) {
-        RequestBody body = RequestBody.create(jsonBody, JSON);
+        RequestBody body = RequestBody.create(JSON, jsonBody);
 
         Request request = new Request.Builder()
                 .url(SUPABASE_URL + "/rest/v1/" + table)
@@ -64,7 +63,7 @@ public class SupabaseClient {
             }
         }
 
-        RequestBody body = RequestBody.create(jsonBody, JSON);
+        RequestBody body = RequestBody.create(JSON, jsonBody);
 
         Request request = new Request.Builder()
                 .url(urlBuilder.build())
