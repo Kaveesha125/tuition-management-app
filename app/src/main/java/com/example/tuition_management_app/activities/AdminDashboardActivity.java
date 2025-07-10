@@ -36,6 +36,9 @@ public class AdminDashboardActivity extends AppCompatActivity {
             } else if (id == R.id.nav_reports) {
                 selected = new AdminReportsFragment();
                 title = "Reports";
+            } else if (id == R.id.nav_notifications) {
+                selected = new NotificationsFragment();
+                title = "Notifications";
             } else if (id == R.id.nav_profile) {
                 selected = new AdminProfileFragment();
                 title = "Profile";

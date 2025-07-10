@@ -10,12 +10,13 @@
         android:layout_height="100dp"
         android:background="#35357C"
         android:title="Home"
-        app:titleCentered="false"
-        android:titleTextColor="#F4EEEE"
+        app:titleTextAppearance="@style/ToolbarTitleBottom"
+        android:titleTextColor="#FFFFFF"
+        app:titleCentered="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-         />
+        />
 
     <FrameLayout
         android:id="@+id/fragmentContainerView"
