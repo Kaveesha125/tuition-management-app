@@ -20,6 +20,11 @@
             android:name=".activities.AdminDashboardActivity"
             android:exported="false" />
 
+        <!-- ✅ register -->
+        <activity android:name=".activities.RegisterActivity"
+            android:exported="false" />
+
+
         <!-- ✅ Login Activity set as launcher -->
         <activity
             android:name=".activities.LoginActivity"
