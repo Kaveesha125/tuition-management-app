@@ -89,4 +89,42 @@ public interface UserService {
     })
     @POST("teacher")
     Call<Object> createTeacher(@Body Map<String, Object> teacher);
+
+
+    @GET("user")
+    Call<List<User>> getVerifiedUsersByRole(
+            @Query("role") String role,
+            @Query("is_verified") boolean isVerified
+    );
+
+   // @DELETE("user")
+    //Call<Void> deleteUserByEmail(@Query("email") String email);
+
+    // 🔄 [UPDATED] Get all users for role filtering in client code
+    @Headers({
+            "apikey: " + API_KEY,
+            "Authorization: " + AUTHORIZATION,
+            "Accept: application/json"
+    })
+    @GET("user")
+    Call<List<User>> getAllUsers();
+
+
+    // ... your other definitions ...
+
+    // 🔄 [UPDATED] Delete user using Supabase-style filter by user ID
+    @Headers({
+            "apikey: " + API_KEY,
+            "Authorization: " + AUTHORIZATION,
+            "Accept: application/json"
+    })
+    @DELETE("user")
+    Call<Void> deleteUserById(@Query("id") Long id); // ✅ sends as number
+
+
+
 }
+
+
+
+

@@ -1,6 +1,9 @@
 package com.example.tuition_management_app.models;
 
 public class User {
+    public String id;
+
+
     public String name;
     public String email;
     public String password;
@@ -13,5 +16,19 @@ public class User {
         this.password = password;
         this.role = role;
         this.is_verified = is_verified;
+    }
+
+    // ✅ Added getters for adapter
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+
+    public String getId() {
+        return id;
     }
 }

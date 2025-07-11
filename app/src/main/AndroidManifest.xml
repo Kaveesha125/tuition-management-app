@@ -25,6 +25,12 @@
             android:exported="false" />
 
 
+        <activity android:name=".activities.ManageStudentsActivity"
+            android:exported="false"/>
+        <activity android:name=".activities.ManageTeachersActivity"
+            android:exported="false"/>
+
+
         <!-- ✅ Login Activity set as launcher -->
         <activity
             android:name=".activities.LoginActivity"
