@@ -4,6 +4,9 @@
     package="com.example.tuition_management_app">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+
 
     <application
         android:allowBackup="true"
@@ -29,6 +32,12 @@
             android:exported="false"/>
         <activity android:name=".activities.ManageTeachersActivity"
             android:exported="false"/>
+        <activity android:name=".activities.StudentReportActivity"
+            android:exported="false"/>
+        <activity android:name=".activities.TeacherReportActivity"
+            android:exported="false"/>
+
+
 
 
         <!-- ✅ Login Activity set as launcher -->

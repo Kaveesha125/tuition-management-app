@@ -30,6 +30,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
 
     }
+    buildFeatures {
+        viewBinding = true // ✅ Enables view binding
+    }
+
 }
 
 dependencies {
@@ -46,5 +50,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.google.android.material:material:1.11.0")
 
-
 }
+
+
+
