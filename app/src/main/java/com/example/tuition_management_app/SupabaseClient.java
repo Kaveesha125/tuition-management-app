@@ -16,11 +16,20 @@ public class SupabaseClient {
     // === SELECT ===
     public static void select(String table, Map<String, String> filters, Callback callback) {
         HttpUrl.Builder urlBuilder = HttpUrl.parse(SUPABASE_URL + "/rest/v1/" + table).newBuilder();
-        urlBuilder.addQueryParameter("select", "*");
+
+        // Handle the 'select' parameter separately to allow overriding the default '*'
+        if (filters != null && filters.containsKey("select")) {
+            urlBuilder.addQueryParameter("select", filters.get("select"));
+        } else {
+            urlBuilder.addQueryParameter("select", "*");
+        }
 
         if (filters != null && !filters.isEmpty()) {
             for (Map.Entry<String, String> entry : filters.entrySet()) {
-                urlBuilder.addQueryParameter(entry.getKey(), entry.getValue());
+                // Avoid adding 'select' again as it's already handled
+                if (!entry.getKey().equals("select")) {
+                    urlBuilder.addQueryParameter(entry.getKey(), entry.getValue());
+                }
             }
         }
 

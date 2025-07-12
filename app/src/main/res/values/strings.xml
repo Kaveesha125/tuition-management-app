@@ -11,4 +11,7 @@
     <string name="manage_materials">Manage Materials</string>
     <string name="view_reports">View Reports</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_material">Add Material</string>
+    <string name="update">Update</string>
+    <string name="delete">Delete</string>
 </resources>

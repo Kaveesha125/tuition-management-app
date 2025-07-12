@@ -6,12 +6,15 @@ import androidx.fragment.app.Fragment;
 import com.example.tuition_management_app.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+
 public class TeacherDashboardActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_dashboard);
+
+
 
         BottomNavigationView bottomNav = findViewById(R.id.teacher_bottom_navigation);
 
