@@ -16,7 +16,12 @@ public class SupabaseClient {
     // === SELECT ===
     public static void select(String table, Map<String, String> filters, Callback callback) {
         HttpUrl.Builder urlBuilder = HttpUrl.parse(SUPABASE_URL + "/rest/v1/" + table).newBuilder();
-        urlBuilder.addQueryParameter("select", "*");
+
+        if (filters != null && filters.containsKey("select")) {
+            // A specific select is provided, so we don't add the default "*".
+        } else {
+            urlBuilder.addQueryParameter("select", "*");
+        }
 
         if (filters != null && !filters.isEmpty()) {
             for (Map.Entry<String, String> entry : filters.entrySet()) {

@@ -54,11 +54,9 @@ public class CourseFragment extends Fragment {
 
         CardView assignmentsCard = view.findViewById(R.id.assignmentsCardView);
         CardView materialsCard = view.findViewById(R.id.materialsCardView);
-        CardView resultsCard = view.findViewById(R.id.resultsCardView);
 
         assignmentsCard.setOnClickListener(v -> navigateToFragment(new AssignmentsFragment()));
         materialsCard.setOnClickListener(v -> navigateToFragment(new MaterialsFragment()));
-        resultsCard.setOnClickListener(v -> navigateToFragment(new ResultsFragment()));
 
         fetchStudentCourse();
     }

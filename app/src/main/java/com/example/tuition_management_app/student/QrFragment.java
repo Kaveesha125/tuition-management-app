@@ -56,7 +56,7 @@ public class QrFragment extends Fragment {
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("student_id", String.valueOf(studentId));
+            jsonObject.put("id", String.valueOf(studentId));
             jsonObject.put("name", studentName);
             jsonObject.put("email", studentEmail);
         } catch (JSONException e) {
