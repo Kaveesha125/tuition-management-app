@@ -90,7 +90,7 @@ public class ManageStudentsActivity extends AppCompatActivity {
     }
 
     private void deleteUserById(Long userId) {
-        userService.deleteUserById(userId).enqueue(new Callback<Void>() {
+        userService.deleteUserById(String.valueOf(userId)).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {

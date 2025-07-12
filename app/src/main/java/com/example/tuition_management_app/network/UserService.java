@@ -16,6 +16,11 @@ public interface UserService {
     String READ_HEADERS = "apikey: " + API_KEY + ", Authorization: " + AUTHORIZATION + ", Accept: application/json";
     String WRITE_HEADERS = "apikey: " + API_KEY + ", Authorization: " + AUTHORIZATION + ", Content-Type: application/json, Prefer: return=representation";
 
+    String DELETE_HEADERS = "apikey: " + API_KEY
+            + ", Authorization: " + AUTHORIZATION
+            + ", Content-Type: application/json"
+            + ", Prefer: return=representation";
+
     // Admin login
     @Headers({
             "apikey: " + API_KEY,
@@ -110,16 +115,25 @@ public interface UserService {
     Call<List<User>> getAllUsers();
 
 
-    // ... your other definitions ...
 
-    // 🔄 [UPDATED] Delete user using Supabase-style filter by user ID
+
+    // Delete user using Supabase-style filter by user ID
+   // @Headers({
+      //      "apikey: " + API_KEY,
+         //   "Authorization: " + AUTHORIZATION,
+        //    "Accept: application/json"
+   // })
+    //@DELETE("user")
+  //  Call<Void> deleteUserById(@Query("id") Long id); // sends as number
+
     @Headers({
             "apikey: " + API_KEY,
             "Authorization: " + AUTHORIZATION,
-            "Accept: application/json"
+            "Content-Type: application/json",
+            "Prefer: return=representation"
     })
     @DELETE("user")
-    Call<Void> deleteUserById(@Query("id") Long id); // ✅ sends as number
+    Call<Void> deleteUserById(@Query("id") String userId);
 
 
 
