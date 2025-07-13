@@ -14,6 +14,10 @@ import com.example.tuition_management_app.model.User;
 import com.example.tuition_management_app.network.UserService;
 import com.example.tuition_management_app.SupabaseClient;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,65 +46,105 @@ public class NotificationsFragment extends Fragment implements PendingUserAdapte
     }
 
     private void fetchPendingUsers() {
-        userService.getPendingUsers("eq.false").enqueue(new Callback<List<User>>() {
+        Map<String, String> filters = new HashMap<>();
+        filters.put("is_verified", "eq.false");
+
+        SupabaseClient.select("user", filters, new okhttp3.Callback() {
             @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    userList = response.body();
-                    adapter = new PendingUserAdapter(userList, getContext(), NotificationsFragment.this);
-                    recyclerView.setAdapter(adapter);
-                } else {
-                    Toast.makeText(getContext(), "Failed to fetch pending users", Toast.LENGTH_SHORT).show();
-                }
+            public void onFailure(okhttp3.Call call, IOException e) {
+                requireActivity().runOnUiThread(() ->
+                        Toast.makeText(getContext(), "Error fetching users: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                );
             }
 
             @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
-                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String json = response.body().string();
+
+                    // Convert JSON array to List<User>
+                    List<User> users = new com.google.gson.Gson().fromJson(json, new com.google.gson.reflect.TypeToken<List<User>>() {}.getType());
+
+                    requireActivity().runOnUiThread(() -> {
+                        userList = users;
+                        adapter = new PendingUserAdapter(userList, getContext(), NotificationsFragment.this);
+                        recyclerView.setAdapter(adapter);
+                    });
+                } else {
+                    requireActivity().runOnUiThread(() ->
+                            Toast.makeText(getContext(), "Failed to fetch pending users: " + response.message(), Toast.LENGTH_SHORT).show()
+                    );
+                }
             }
         });
     }
 
+
     @Override
     public void onApprove(User user, int position) {
-        Map<String, Boolean> body = new HashMap<>();
-        body.put("is_verified", true);
+        String filterQuery = "id=eq." + user.getId();
 
-        userService.approveUser(user.getEmail(), body).enqueue(new Callback<List<User>>() {
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("is_verified", true);
+        } catch (JSONException e) {
+            Toast.makeText(getContext(), "JSON error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        SupabaseClient.update("user", filterQuery, jsonBody.toString(), new okhttp3.Callback() {
             @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(getContext(), "User approved!", Toast.LENGTH_SHORT).show();
-                    adapter.removeAt(position);
-                } else {
-                    Toast.makeText(getContext(), "Failed to approve user", Toast.LENGTH_SHORT).show();
-                }
+            public void onFailure(okhttp3.Call call, IOException e) {
+                requireActivity().runOnUiThread(() ->
+                        Toast.makeText(getContext(), "Approve failed: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                );
             }
 
             @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
-                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
+                requireActivity().runOnUiThread(() -> {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(getContext(), "User approved!", Toast.LENGTH_SHORT).show();
+                        adapter.removeAt(position);
+                    } else {
+                        Toast.makeText(getContext(), "Approve failed: " + response.message(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
 
     @Override
     public void onReject(User user, int position) {
-        userService.deleteUser(user.getEmail()).enqueue(new Callback<Void>() {
+        String filterQuery = "email=eq." + user.getEmail(); // or "id=eq." + user.getId()
+
+        SupabaseClient.delete("user", filterQuery, new okhttp3.Callback() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(getContext(), "User rejected and deleted!", Toast.LENGTH_SHORT).show();
-                    adapter.removeAt(position);
-                } else {
-                    Toast.makeText(getContext(), "Failed to delete user", Toast.LENGTH_SHORT).show();
-                }
+            public void onFailure(okhttp3.Call call, IOException e) {
+                requireActivity().runOnUiThread(() ->
+                        Toast.makeText(getContext(), "Reject failed: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                );
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
+                requireActivity().runOnUiThread(() -> {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(getContext(), "User rejected and deleted!", Toast.LENGTH_SHORT).show();
+                        adapter.removeAt(position);
+                    } else {
+                        Toast.makeText(getContext(), "Reject failed: " + response.message(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
+
+
+
+
+
+
+
 }

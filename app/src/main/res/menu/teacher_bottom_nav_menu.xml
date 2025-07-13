@@ -1,8 +1,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/nav_homeTeacher"
-        android:icon="@drawable/ic_attendance"
-        android:title="Home" />
+
     <item
         android:id="@+id/nav_courseTeacher"
         android:icon="@drawable/ic_book"

@@ -54,6 +54,18 @@
         android:backgroundTint="#FFFFFF"
         android:layout_marginTop="12dp" />
 
+
+    <Spinner
+        android:id="@+id/spinnerRole"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="#FFFFFF"
+        android:spinnerMode="dropdown"
+        android:padding="12dp"
+        android:popupBackground="#FFFFFF"
+        android:entries="@array/roles_arrayR" />
+
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"

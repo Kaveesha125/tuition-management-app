@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,6 +23,7 @@ import okhttp3.Response;
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText etName, etEmail, etPassword;
+    private Spinner spinnerRole;
     private Button btnRegister;
     private TextView tvRegister;
 
@@ -33,8 +35,12 @@ public class RegisterActivity extends AppCompatActivity {
         etName = findViewById(R.id.etName);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
+        spinnerRole = findViewById(R.id.spinnerRole);
         btnRegister = findViewById(R.id.btnRegister);
         tvRegister = findViewById(R.id.tvRegister);
+
+        // Optional: Set default selected role
+        spinnerRole.setSelection(0); // selects "teacher"
 
         btnRegister.setOnClickListener(view -> registerUser());
 
@@ -48,6 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
         String name = etName.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
+        String role = spinnerRole.getSelectedItem().toString();
 
         if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
             showToast("Please fill all fields");
@@ -59,7 +66,8 @@ public class RegisterActivity extends AppCompatActivity {
             userJson.put("name", name);
             userJson.put("email", email);
             userJson.put("password", password);
-            userJson.put("role", "teacher"); // Hardcoded
+            userJson.put("role", role);
+            userJson.put("is_verified", false); // default status
 
             SupabaseClient.insert("user", userJson.toString(), new Callback() {
                 @Override

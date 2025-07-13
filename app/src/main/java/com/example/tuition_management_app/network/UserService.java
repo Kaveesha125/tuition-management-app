@@ -16,6 +16,8 @@ public interface UserService {
     String READ_HEADERS = "apikey: " + API_KEY + ", Authorization: " + AUTHORIZATION + ", Accept: application/json";
     String WRITE_HEADERS = "apikey: " + API_KEY + ", Authorization: " + AUTHORIZATION + ", Content-Type: application/json, Prefer: return=representation";
 
+
+
     // Admin login
     @Headers({
             "apikey: " + API_KEY,

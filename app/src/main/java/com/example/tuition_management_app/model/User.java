@@ -30,8 +30,16 @@ public class User {
         return id;
     }
 
+    public boolean getisverified() {
+        return is_verified;
+    }
+
 
     public String getRole() {
         return role;
+    }
+
+    public boolean isVerified() {
+        return is_verified;
     }
 }

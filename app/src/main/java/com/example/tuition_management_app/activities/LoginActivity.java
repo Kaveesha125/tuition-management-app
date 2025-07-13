@@ -5,18 +5,14 @@ import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.view.MotionEvent;
 import android.widget.*;
-import androidx.appcompat.app.AppCompatActivity;
 
-// Import your Student and Teacher activity classes
-// Make sure these import paths match your project structure
-import com.example.tuition_management_app.utils.SessionManager;
-import com.example.tuition_management_app.student.StudentHomeActivity;
-import com.example.tuition_management_app.teachers.TeacherDashboardActivity;
-// If AdminDashboardActivity is not in the same 'activities' package, import it too.
-// Assuming it's in the same package as LoginActivity, so no explicit import needed for it here.
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tuition_management_app.R;
 import com.example.tuition_management_app.SupabaseClient;
+import com.example.tuition_management_app.student.StudentHomeActivity;
+import com.example.tuition_management_app.teachers.TeacherDashboardActivity;
+import com.example.tuition_management_app.utils.SessionManager;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -42,8 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         SessionManager session = new SessionManager(this);
-        if(session.getUserId() != -1) {
-            // User is already logged in, redirect to appropriate dashboard
+        if (session.getUserId() != -1) {
             String role = session.getRole();
             Intent intent = null;
             switch (role.toLowerCase()) {
@@ -63,7 +58,12 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+
         setContentView(R.layout.activity_login);
+
+        etEmail = findViewById(R.id.etEmail);
+        etPassword = findViewById(R.id.etPassword);
+        btnLogin = findViewById(R.id.btnLogin);
 
         TextView tvRegister = findViewById(R.id.tvRegister);
         tvRegister.setOnClickListener(v -> {
@@ -71,14 +71,8 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-
-        etEmail = findViewById(R.id.etEmail);
-        etPassword = findViewById(R.id.etPassword);
-        btnLogin = findViewById(R.id.btnLogin);
-
-        // Toggle password visibility on eye icon click
         etPassword.setOnTouchListener((v, event) -> {
-            final int DRAWABLE_END = 2; // Right drawable index
+            final int DRAWABLE_END = 2;
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 if (event.getRawX() >= (etPassword.getRight() - etPassword.getCompoundDrawables()[DRAWABLE_END].getBounds().width())) {
                     isPasswordVisible = !isPasswordVisible;
@@ -143,6 +137,16 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (jsonArray.length() > 0) {
                         JSONObject userObj = jsonArray.getJSONObject(0);
+
+                        // ✅ Check is_verified status
+                        boolean isVerified = userObj.optBoolean("is_verified", false);
+                        if (!isVerified) {
+                            runOnUiThread(() ->
+                                    Toast.makeText(LoginActivity.this, "Account not verified yet.", Toast.LENGTH_SHORT).show()
+                            );
+                            return;
+                        }
+
                         long userId = userObj.getLong("id");
                         String role = userObj.getString("role");
                         String name = userObj.getString("name");
@@ -168,13 +172,15 @@ public class LoginActivity extends AppCompatActivity {
                                     break;
                                 default:
                                     Toast.makeText(LoginActivity.this, "Unknown role: " + role, Toast.LENGTH_SHORT).show();
-                                    break;
+                                    return;
                             }
+
                             if (intent != null) {
                                 startActivity(intent);
                                 finish();
                             }
                         });
+
                     } else {
                         runOnUiThread(() ->
                                 Toast.makeText(LoginActivity.this, "Invalid email or password", Toast.LENGTH_SHORT).show()
@@ -182,7 +188,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 } catch (JSONException e) {
                     runOnUiThread(() ->
-                            Toast.makeText(LoginActivity.this, "Response parsing error: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(LoginActivity.this, "JSON parsing error: " + e.getMessage(), Toast.LENGTH_SHORT).show()
                     );
                 }
             }

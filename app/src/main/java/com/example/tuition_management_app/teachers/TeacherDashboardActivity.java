@@ -14,8 +14,6 @@ public class TeacherDashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_dashboard);
 
-
-
         BottomNavigationView bottomNav = findViewById(R.id.teacher_bottom_navigation);
 
         // Set default fragment
@@ -28,13 +26,14 @@ public class TeacherDashboardActivity extends AppCompatActivity {
         bottomNav.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
             int itemId = item.getItemId();
-            if (itemId == R.id.nav_homeTeacher) {
-                selectedFragment = new TeacherHome();
-            } else if (itemId == R.id.nav_courseTeacher) {
+
+            // Removed the nav_homeTeacher condition since it no longer exists
+            if (itemId == R.id.nav_courseTeacher) {
                 selectedFragment = new FragmentTeacherCourse();
             } else if (itemId == R.id.nav_profileTeacher) {
                 selectedFragment = new FragmentTeacherProfile();
             }
+
             if (selectedFragment != null) {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.teacher_fragment_container, selectedFragment)

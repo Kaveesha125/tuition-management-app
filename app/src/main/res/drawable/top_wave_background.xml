@@ -1,0 +1,21 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="360dp"
+    android:height="200dp"
+    android:viewportWidth="360"
+    android:viewportHeight="200">
+
+    <!-- Background Blue -->
+    <path
+        android:fillColor="#35357C"
+        android:pathData="M0,0 H360 V140 Q180,200 0,140 Z" />
+
+    <!-- White Soft Wave Line 1 -->
+    <path
+        android:fillColor="#20FFFFFF"
+        android:pathData="M0,120 Q90,140 180,120 T360,120 L360,140 Q180,160 0,140 Z" />
+
+    <!-- White Soft Wave Line 2 -->
+    <path
+        android:fillColor="#15FFFFFF"
+        android:pathData="M0,130 Q100,150 200,130 T360,130 L360,160 Q180,180 0,160 Z" />
+</vector>
