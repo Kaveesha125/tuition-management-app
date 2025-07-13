@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#F9FAFB">
+    <TextView
+        android:id="@+id/tvUserId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#999999"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        android:layout_marginBottom="4dp" />
+
+
+    <TextView
+        android:id="@+id/tvName"
+        android:textSize="16sp"
+        android:textColor="#182A33"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvEmail"
+        android:textSize="14sp"
+        android:textColor="#676F97"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" /> <!-- ✅ Fixed typo: "wrap_cont ent" → "wrap_content" -->
+</LinearLayout>

@@ -2,6 +2,10 @@ package com.example.tuition_management_app;
 
 
 import java.util.Map;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import okhttp3.*;
 
@@ -108,4 +112,26 @@ public class SupabaseClient {
 
         client.newCall(request).enqueue(callback);
     }
+    public static Retrofit getClient() {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(chain -> {
+                    Request originalRequest = chain.request();
+                    Request.Builder builder = originalRequest.newBuilder()
+                            .addHeader("apikey", API_KEY)
+                            .addHeader("Authorization", "Bearer " + API_KEY);
+                    Request newRequest = builder.build();
+                    return chain.proceed(newRequest);
+                })
+                .build();
+
+        return new Retrofit.Builder()
+                .baseUrl(SUPABASE_URL)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+    }
+    // Add this new method to SupabaseClient.java
+
+
+
 }

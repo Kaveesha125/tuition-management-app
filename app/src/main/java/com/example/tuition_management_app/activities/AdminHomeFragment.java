@@ -1,0 +1,46 @@
+package com.example.tuition_management_app.activities;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.example.tuition_management_app.R;
+
+public class AdminHomeFragment extends Fragment {
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_admin_home, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        TextView btnManageStudents = view.findViewById(R.id.btnManageStudents);
+        TextView btnManageTeachers = view.findViewById(R.id.btnManageTeachers);
+        TextView btnAssignCourses = view.findViewById(R.id.btnAssignCourses);
+
+        btnManageStudents.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), ManageStudentsActivity.class);
+            startActivity(intent);
+        });
+
+        btnManageTeachers.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), ManageTeachersActivity.class);
+            startActivity(intent);
+        });
+
+        btnAssignCourses.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), AssignCourseActivity.class);
+            startActivity(intent);
+        });
+    }
+}

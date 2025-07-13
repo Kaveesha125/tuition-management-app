@@ -1,4 +1,4 @@
-package com.example.tuition_management_app;
+package com.example.tuition_management_app.teachers;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.tuition_management_app.R;
+import com.example.tuition_management_app.SupabaseClient;
 import com.example.tuition_management_app.utils.SessionManager;
 
 import org.json.JSONException;
@@ -26,7 +28,6 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class ChangePasswordDialogFragment extends DialogFragment {

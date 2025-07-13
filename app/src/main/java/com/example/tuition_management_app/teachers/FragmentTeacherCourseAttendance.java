@@ -88,10 +88,11 @@ public class FragmentTeacherCourseAttendance extends Fragment {
     private void handleScannedData(String scannedJson) {
         try {
             JSONObject jsonObject = new JSONObject(scannedJson);
-            long studentId = jsonObject.getLong("student_id");
+            long userId = jsonObject.getLong("id"); // Extract from QR code
 
+            // Step 1: Fetch student by user_id
             SupabaseClient.select("students",
-                    Map.of("student_id", "eq." + studentId, "course_id", "eq." + courseId),
+                    Map.of("user_id", "eq." + userId, "course_id", "eq." + courseId),
                     new Callback() {
                         @Override
                         public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -109,6 +110,18 @@ public class FragmentTeacherCourseAttendance extends Fragment {
                                     throw new IOException("Empty response body");
                                 }
 
+                                org.json.JSONArray array = new org.json.JSONArray(body);
+                                if (array.length() == 0) {
+                                    requireActivity().runOnUiThread(() -> {
+                                        showToast("Student not enrolled in this course");
+                                        barcodeView.resume();
+                                    });
+                                    return;
+                                }
+
+                                JSONObject studentRecord = array.getJSONObject(0);
+                                long studentId = studentRecord.getLong("student_id");
+
                                 JSONObject result = new JSONObject();
                                 result.put("student_id", studentId);
                                 result.put("teacher_id", teacherId);
@@ -118,35 +131,28 @@ public class FragmentTeacherCourseAttendance extends Fragment {
                                 String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
                                 result.put("date", currentDate);
 
-                                if (new org.json.JSONArray(body).length() > 0) {
-                                    // student is enrolled — record attendance
-                                    SupabaseClient.insert("attendance", result.toString(), new Callback() {
-                                        @Override
-                                        public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                                            requireActivity().runOnUiThread(() -> {
-                                                showToast("Failed to record attendance");
-                                                barcodeView.resume();
-                                            });
-                                        }
+                                // Step 2: Insert attendance
+                                SupabaseClient.insert("attendance", result.toString(), new Callback() {
+                                    @Override
+                                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                                        requireActivity().runOnUiThread(() -> {
+                                            showToast("Failed to record attendance");
+                                            barcodeView.resume();
+                                        });
+                                    }
 
-                                        @Override
-                                        public void onResponse(@NonNull Call call, @NonNull Response response) {
-                                            requireActivity().runOnUiThread(() -> {
-                                                showToast("Attendance recorded");
-                                                barcodeView.resume();
-                                            });
-                                        }
-                                    });
-                                } else {
-                                    // student not enrolled
-                                    requireActivity().runOnUiThread(() -> {
-                                        showToast("Student not enrolled in this course");
-                                        barcodeView.resume();
-                                    });
-                                }
+                                    @Override
+                                    public void onResponse(@NonNull Call call, @NonNull Response response) {
+                                        requireActivity().runOnUiThread(() -> {
+                                            showToast("Attendance recorded");
+                                            barcodeView.resume();
+                                        });
+                                    }
+                                });
+
                             } catch (JSONException e) {
                                 requireActivity().runOnUiThread(() -> {
-                                    showToast("Error parsing QR or response");
+                                    showToast("Error parsing student info");
                                     barcodeView.resume();
                                 });
                             }
@@ -158,6 +164,7 @@ public class FragmentTeacherCourseAttendance extends Fragment {
             barcodeView.resume(); // already on main thread here
         }
     }
+
 
     private void showToast(String msg) {
         Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
