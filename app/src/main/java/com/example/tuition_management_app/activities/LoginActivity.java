@@ -138,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (jsonArray.length() > 0) {
                         JSONObject userObj = jsonArray.getJSONObject(0);
 
-                        // ✅ Check is_verified status
+                        //Check is_verified status
                         boolean isVerified = userObj.optBoolean("is_verified", false);
                         if (!isVerified) {
                             runOnUiThread(() ->

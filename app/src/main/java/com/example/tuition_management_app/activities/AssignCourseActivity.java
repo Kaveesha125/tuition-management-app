@@ -64,6 +64,11 @@ public class AssignCourseActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         roleSpinner.setAdapter(adapter);
 
+        int studentPosition = adapter.getPosition("Student");
+        if (studentPosition != -1) {
+            roleSpinner.setSelection(studentPosition);
+        }
+
         roleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
@@ -81,7 +86,7 @@ public class AssignCourseActivity extends AppCompatActivity {
         Map<String, Object> updates = new HashMap<>();
         updates.put("course_id", Long.parseLong(courseId));
 
-        String filter = "user_id=eq." + userId;
+        String filter = "student_id=eq." + userId;
         String jsonBody = new JSONObject(updates).toString();
 
         SupabaseClient.update("students", filter, jsonBody, new Callback() {
@@ -111,7 +116,7 @@ public class AssignCourseActivity extends AppCompatActivity {
     }
 
     private void assignCourseToTeacher(String userId, String courseId) {
-        // Step 1: Get teacher_id from teachers table by user_id
+        // Get teacher_id from teachers table by user_id
         Map<String, String> filters = new HashMap<>();
         filters.put("user_id", "eq." + userId);
         filters.put("select", "teacher_id");
