@@ -21,4 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "tuition-management-app"
 include(":app")
+
+
  
