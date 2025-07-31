@@ -11,8 +11,8 @@ import okhttp3.*;
 
 public class SupabaseClient {
     // Replace these with your actual project credentials
-    private static final String SUPABASE_URL = "https://vdrphijlvresyudxgfrj.supabase.co";
-    private static final String API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZkcnBoaWpsdnJlc3l1ZHhnZnJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE4Njc3NzYsImV4cCI6MjA2NzQ0Mzc3Nn0.HYCsGy7U5la9oG68t7msPkDvFZPUpIevVgPlNNjZa5w";
+    private static final String SUPABASE_URL = "";
+    private static final String API_KEY = "";
     private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
     private static final OkHttpClient client = new OkHttpClient();
